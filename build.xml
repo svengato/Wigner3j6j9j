@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<project name="Wigner3j6j9j" default="link">
+	<property name="src" location="src" />
+	<property name="dest" location="build/class" />
+
+	<target name="cleanup">
+		<delete dir="build" />
+	</target>
+
+	<target name="setup" depends="cleanup">
+		<echo>Java ${ant.java.version} and ${ant.version}</echo>
+		<mkdir dir="${dest}" />
+	</target>
+
+	<target name="compile-gui" depends="setup">
+		<javac srcdir="${src}/com/svengato/gui" destdir="${dest}" />
+	</target>
+
+	<target name="compile-math" depends="setup">
+		<javac srcdir="${src}/com/svengato/math" destdir="${dest}" />
+	</target>
+
+	<target name="compile" depends="compile-gui, compile-math">
+		<javac srcdir="${src}/com/svengato/wigner" destdir="${dest}" />
+	</target>
+
+	<target name="link" depends="compile">
+		<jar destfile="wigner3j6j9j.jar" basedir="${dest}" />
+	</target>
+</project>

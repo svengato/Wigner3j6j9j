@@ -1,0 +1,1 @@
+java -Xdock:name="Wigner 9j Symbol Calculator" -cp wigner3j6j9j.jar com.svengato.wigner.Wigner9jSymbolPanel
