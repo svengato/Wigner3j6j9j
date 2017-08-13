@@ -13,15 +13,15 @@
 	</target>
 
 	<target name="compile-gui" depends="setup">
-		<javac srcdir="${src}/com/svengato/gui" destdir="${dest}" />
+		<javac srcdir="${src}/com/svengato/gui" destdir="${dest}" includeantruntime="false" />
 	</target>
 
 	<target name="compile-math" depends="setup">
-		<javac srcdir="${src}/com/svengato/math" destdir="${dest}" />
+		<javac srcdir="${src}/com/svengato/math" destdir="${dest}" includeantruntime="false" />
 	</target>
 
 	<target name="compile" depends="compile-gui, compile-math">
-		<javac srcdir="${src}/com/svengato/wigner" destdir="${dest}" />
+		<javac srcdir="${src}/com/svengato/wigner" destdir="${dest}" includeantruntime="false" />
 	</target>
 
 	<target name="link" depends="compile">
