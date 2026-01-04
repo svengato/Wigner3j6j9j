@@ -9,6 +9,8 @@ relevant to angular momentum coupling in quantum physics.
 
 * [9j symbol](https://en.wikipedia.org/wiki/9-j_symbol) ![9j symbol](wigner9j.png "9j Symbol") - for four angular momenta
 
+**Note: This Java version is deprecated** in favor of the new JavaScript version (in the `main` branch).
+
 #### Instructions
 
 To build the Java .jar archive, run Ant (on build.xml, by default).
@@ -25,7 +27,7 @@ wigner9j.sh
 
 #### License
 
-   Copyright &copy; 2004-2018 svengato
+   Copyright &copy; 2004-2026 svengato
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
