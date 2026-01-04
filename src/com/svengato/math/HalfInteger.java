@@ -7,6 +7,8 @@ package com.svengato.math;
 /** Converts an integer or (valid) string to a half-integer representation */
 public class HalfInteger extends Number
 {
+  public int numerator;
+
   HalfInteger(int n) {
     numerator = n;
   }
@@ -48,8 +50,6 @@ public class HalfInteger extends Number
   public long longValue() { return numerator/2; }
   public float floatValue() { return (float)(0.5*numerator); }
   public double doubleValue() { return 0.5*numerator; }
-
-  public int numerator;
 }
 
 // =============================================================================

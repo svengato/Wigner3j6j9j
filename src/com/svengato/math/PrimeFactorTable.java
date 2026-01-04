@@ -7,13 +7,17 @@ import java.util.Vector;
 // =============================================================================
 
 /** Prime factor representation of the square root of a rational number */
-public class PrimeFactorTable extends Number {
+public class PrimeFactorTable extends Number
+{
   // constants
   public static final int jMax = 65; // (jMax + 1)! / m! (jMax + 1 - m)! < 2^63 (limit of signed 64-bit integer)
   public static final long ithPrime[] = {
     0, -1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61
   };
   public static final int maxPrimes = ithPrime.length; // = 20, enough to include all primes up to jMax + 1
+
+  public int primeFactor[];
+  public long remainder;
 
   PrimeFactorTable(long n, int power) {
     // value = Product[ithPrime[i]^(primeFactor[i]*power)] * remainder
@@ -163,9 +167,6 @@ public class PrimeFactorTable extends Number {
 
     return (strbuf.toString());
   }
-
-  public int primeFactor[];
-  public long remainder;
 }
 
 // =============================================================================

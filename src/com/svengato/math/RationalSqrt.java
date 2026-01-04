@@ -5,7 +5,10 @@ package com.svengato.math;
 // =============================================================================
 
 /** Square root of a rational number, in the form (n1*sqrt(n2))/(d1*sqrt(d2)) where n1, n2, d1, d2 are integers */
-public class RationalSqrt extends Number {
+public class RationalSqrt extends Number
+{
+  long n1, n2, d1, d2;
+
   RationalSqrt(PrimeFactorTable pft) {
     int i, j;
 
@@ -109,8 +112,6 @@ public class RationalSqrt extends Number {
     double dval = (double)n1 * Math.sqrt((double)n2) / ((double)d1 * Math.sqrt((double)d2));
     return dval;
   }
-
-  long n1, n2, d1, d2;
 }
 
 // =============================================================================
