@@ -1,0 +1,321 @@
+<!doctype html>
+<html>
+<head>
+<title>Wigner 3j, 6j, 9j Symbol Calculators</title>
+
+<script type="text/javascript" src="js/bigInt-common.js"></script>
+<script type="text/javascript" src="js/prime-factor-table.js"></script>
+<script type="text/javascript" src="js/rational-sqrt.js"></script>
+<script type="text/javascript" src="js/wigner-common.js"></script>
+<script type="text/javascript" src="js/wigner-3j.js"></script>
+<script type="text/javascript" src="js/wigner-6j.js"></script>
+<script type="text/javascript" src="js/wigner-9j.js"></script>
+
+<script>
+  updateM3 = function() {
+    let m1 = document.getElementById("m1-3j").value;
+    let m2 = document.getElementById("m2-3j").value;
+    try {
+      m3 = -(parseFloat(m1) + parseFloat(m2));
+      document.getElementById("m3-3j").innerHTML = m3;
+    } catch (error) {
+      document.getElementById("m3-3j").innerHTML = error;
+    }
+  }
+  update3jResult = function() {
+    let j1 = document.getElementById("j1-3j").value;
+    let j2 = document.getElementById("j2-3j").value;
+    let j3 = document.getElementById("j3-3j").value;
+    let m1 = document.getElementById("m1-3j").value;
+    let m2 = document.getElementById("m2-3j").value;
+    let m3 = document.getElementById("m3-3j").innerHTML;
+    let outputFormat = localStorage.getItem("outputFormat");
+    let sqrtFormat = localStorage.getItem("sqrtFormat");
+    try {
+      let pft3j = wigner3j(j1, j2, j3, m1, m2, m3);
+      let rs3j = new RationalSqrt(pft3j, sqrtFormat);
+      let numDigits = parseInt(document.getElementById("precision").value);
+      if (outputFormat == "analytical") {
+        document.getElementById("result-3j").innerHTML = rs3j.toString();
+      } else if (outputFormat == "numerical") {
+        document.getElementById("result-3j").innerHTML = rs3j.value().toPrecision(numDigits);
+      } else {
+        document.getElementById("result-3j").innerHTML = rs3j.toString() + " = " + rs3j.value().toPrecision(numDigits);
+      }
+      write3jToLocalStorage();
+    } catch (error) {
+      document.getElementById("result-3j").innerHTML = error;
+    }
+  }
+</script>
+
+<script>
+  update6jResult = function() {
+    let j1 = document.getElementById("j1-6j").value;
+    let j2 = document.getElementById("j2-6j").value;
+    let j3 = document.getElementById("j3-6j").value;
+    let j4 = document.getElementById("j4-6j").value;
+    let j5 = document.getElementById("j5-6j").value;
+    let j6 = document.getElementById("j6-6j").value;
+    let outputFormat = localStorage.getItem("outputFormat");
+    let sqrtFormat = localStorage.getItem("sqrtFormat");
+    try {
+      let pft6j = wigner6j(j1, j2, j3, j4, j5, j6);
+      let rs6j = new RationalSqrt(pft6j, sqrtFormat);
+      let numDigits = parseInt(document.getElementById("precision").value);
+      if (outputFormat == "analytical") {
+        document.getElementById("result-6j").innerHTML = rs6j.toString();
+      } else if (outputFormat == "numerical") {
+        document.getElementById("result-6j").innerHTML = rs6j.value().toPrecision(numDigits);
+      } else {
+        document.getElementById("result-6j").innerHTML = rs6j.toString() + " = " + rs6j.value().toPrecision(numDigits);
+      }
+      write6jToLocalStorage();
+    } catch (error) {
+      document.getElementById("result-6j").innerHTML = error;
+    }
+  }
+</script>
+
+<script>
+  update9jResult = function() {
+    let j1 = document.getElementById("j1-9j").value;
+    let j2 = document.getElementById("j2-9j").value;
+    let j3 = document.getElementById("j3-9j").value;
+    let j4 = document.getElementById("j4-9j").value;
+    let j5 = document.getElementById("j5-9j").value;
+    let j6 = document.getElementById("j6-9j").value;
+    let j7 = document.getElementById("j7-9j").value;
+    let j8 = document.getElementById("j8-9j").value;
+    let j9 = document.getElementById("j9-9j").value;
+    let outputFormat = localStorage.getItem("outputFormat");
+    let sqrtFormat = localStorage.getItem("sqrtFormat");
+    try {
+      let pft9j = wigner9j(j1, j2, j3, j4, j5, j6, j7, j8, j9);
+      let rs9j = new RationalSqrt(pft9j, sqrtFormat);
+      let numDigits = parseInt(document.getElementById("precision").value);
+      if (outputFormat == "analytical") {
+        document.getElementById("result-9j").innerHTML = rs9j.toString();
+      } else if (outputFormat == "numerical") {
+        document.getElementById("result-9j").innerHTML = rs9j.value().toPrecision(numDigits);
+      } else {
+        document.getElementById("result-9j").innerHTML = rs9j.toString() + " = " + rs9j.value().toPrecision(numDigits);
+      }
+      write9jToLocalStorage();
+    } catch (error) {
+      document.getElementById("result-9j").innerHTML = error;
+    }
+  }
+</script>
+
+<script>
+  initializeFromLocalStorage = function(key, defaultValue) {
+    let value = localStorage.getItem(key);
+    if (value === null) value = defaultValue;
+    document.getElementById(key).value = value;
+  }
+
+  initializeRadioFromLocalStorage = function(key, defaultValue) {
+    let value = localStorage.getItem(key);
+    if (value === null) value = defaultValue;
+    document.querySelector('input[value="' + value + '"]').click();
+  }
+
+  initializeWigner3j6j9j = function() {
+    // 3j symbol
+    initializeFromLocalStorage("j1-3j", 1);
+    initializeFromLocalStorage("j2-3j", 1);
+    initializeFromLocalStorage("j3-3j", 2);
+    initializeFromLocalStorage("m1-3j", 1);
+    initializeFromLocalStorage("m2-3j", 1);
+    updateM3();
+    update3jResult();
+
+    // 6j symbol
+    initializeFromLocalStorage("j1-6j", 1);
+    initializeFromLocalStorage("j2-6j", 1);
+    initializeFromLocalStorage("j3-6j", 2);
+    initializeFromLocalStorage("j4-6j", 1);
+    initializeFromLocalStorage("j5-6j", 1);
+    initializeFromLocalStorage("j6-6j", 2);
+    update6jResult();
+
+    // 9j symbol
+    initializeFromLocalStorage("j1-9j", 1);
+    initializeFromLocalStorage("j2-9j", 1);
+    initializeFromLocalStorage("j3-9j", 2);
+    initializeFromLocalStorage("j4-9j", 1);
+    initializeFromLocalStorage("j5-9j", 1);
+    initializeFromLocalStorage("j6-9j", 2);
+    initializeFromLocalStorage("j7-9j", 1);
+    initializeFromLocalStorage("j8-9j", 1);
+    initializeFromLocalStorage("j9-9j", 2);
+    update9jResult();
+
+    initializeRadioFromLocalStorage("outputFormat", "both");
+    initializeRadioFromLocalStorage("sqrtFormat", "radical");
+    initializeFromLocalStorage("precision", 4);
+  }
+
+  writeToLocalStorage = function(key) {
+    localStorage.setItem(key, document.getElementById(key).value);
+  }
+
+  writeRadioToLocalStorage = function(key, value) {
+    localStorage.setItem(key, document.querySelector('input[name=' + key + ']:checked').value);
+  }
+
+  write3jToLocalStorage = function() {
+    writeToLocalStorage("j1-3j");
+    writeToLocalStorage("j2-3j");
+    writeToLocalStorage("j3-3j");
+    writeToLocalStorage("m1-3j");
+    writeToLocalStorage("m2-3j");
+  }
+
+  write6jToLocalStorage = function() {
+    writeToLocalStorage("j1-6j");
+    writeToLocalStorage("j2-6j");
+    writeToLocalStorage("j3-6j");
+    writeToLocalStorage("j4-6j");
+    writeToLocalStorage("j5-6j");
+    writeToLocalStorage("j6-6j");
+  }
+
+  write9jToLocalStorage = function() {
+    writeToLocalStorage("j1-9j");
+    writeToLocalStorage("j2-9j");
+    writeToLocalStorage("j3-9j");
+    writeToLocalStorage("j4-9j");
+    writeToLocalStorage("j5-9j");
+    writeToLocalStorage("j6-9j");
+    writeToLocalStorage("j7-9j");
+    writeToLocalStorage("j8-9j");
+    writeToLocalStorage("j9-9j");
+  }
+</script>
+
+</head>
+
+<body onload="initializeWigner3j6j9j();">
+
+<h2>Wigner 3j, 6j, 9j Symbol Calculators</h2>
+
+<table>
+<tr>
+<td>
+
+<div style="background-color: pink; margin:8px; padding: 8px;">
+<h4>3j Symbols</h4>
+<p>
+<a href="https://dlmf.nist.gov/34.2" target=_blank>Definition</a>
+&bull; <a href="https://dlmf.nist.gov/34.3" target=_blank>Basic Properties</a>
+&bull; <a href="https://en.wikipedia.org/wiki/3-j_symbol" target=_blank>Wikipedia</a>
+</p><p>
+&nbsp;<i>j</i><sub><small>1</small></sub> = <input type="number" id="j1-3j" min=0 max=32 value=1 step=0.5 style="width: 48px" onchange="update3jResult();">
+&nbsp;<i>j</i><sub><small>2</small></sub> = <input type="number" id="j2-3j" min=0 max=32 value=1 step=0.5 style="width: 48px" onchange="update3jResult();">
+&nbsp;<i>j</i><sub><small>3</small></sub> = <input type="number" id="j3-3j" min=0 max=32 value=2 step=0.5 style="width: 48px" onchange="update3jResult();">
+<br>
+<i>m</i><sub><small>1</small></sub> = <input type="number" id="m1-3j" min=-32 max=32 value=1 step=0.5 style="width: 48px" onchange="updateM3(); update3jResult();">
+<i>m</i><sub><small>2</small></sub> = <input type="number" id="m2-3j" min=-32 max=32 value=1 step=0.5 style="width: 48px" onchange="updateM3(); update3jResult();">
+<i>m</i><sub><small>3</small></sub> = <span id="m3-3j" style="width: 48px"></span>
+</p><p>
+<span id="result-3j"></span>
+</p>
+</div>
+
+</td><td>
+
+<div style="background-color: lightgreen; margin:8px; padding: 8px;">
+<h4>6j Symbols</h4>
+<p>
+<a href="https://dlmf.nist.gov/34.4" target=_blank>Definition</a>
+&bull; <a href="https://dlmf.nist.gov/34.5" target=_blank>Basic Properties</a>
+&bull; <a href="https://en.wikipedia.org/wiki/6-j_symbol" target=_blank>Wikipedia</a>
+</p><p>
+<i>j</i><sub><small>1</small></sub> = <input type="number" id="j1-6j" min=0 max=32 value=1 step=0.5 style="width: 48px" onchange="update6jResult();">
+<i>j</i><sub><small>2</small></sub> = <input type="number" id="j2-6j" min=0 max=32 value=1 step=0.5 style="width: 48px" onchange="update6jResult();">
+<i>j</i><sub><small>3</small></sub> = <input type="number" id="j3-6j" min=0 max=32 value=2 step=0.5 style="width: 48px" onchange="update6jResult();">
+<br>
+<i>j</i><sub><small>4</small></sub> = <input type="number" id="j4-6j" min=0 max=32 value=1 step=0.5 style="width: 48px" onchange="update6jResult();">
+<i>j</i><sub><small>5</small></sub> = <input type="number" id="j5-6j" min=0 max=32 value=1 step=0.5 style="width: 48px" onchange="update6jResult();">
+<i>j</i><sub><small>6</small></sub> = <input type="number" id="j6-6j" min=0 max=32 value=1 step=0.5 style="width: 48px" onchange="update6jResult();">
+</p><p>
+<span id="result-6j"></span>
+</p>
+</div>
+
+</td><td>
+
+<div style="background-color: lightblue; margin:8px; padding: 8px;">
+<h4>9j Symbols</h4>
+
+<p>
+<a href="https://dlmf.nist.gov/34.6" target=_blank>Definition</a>
+&bull; <a href="https://dlmf.nist.gov/34.7" target=_blank>Basic Properties</a>
+&bull; <a href="https://en.wikipedia.org/wiki/9-j_symbol" target=_blank>Wikipedia</a>
+</p><p>
+<i>j</i><sub><small>1</small></sub> = <input type="number" id="j1-9j" min=0 max=32 value=2 step=0.5 style="width: 48px" onchange="update9jResult();">
+<i>j</i><sub><small>2</small></sub> = <input type="number" id="j2-9j" min=0 max=32 value=1 step=0.5 style="width: 48px" onchange="update9jResult();">
+<i>j</i><sub><small>3</small></sub> = <input type="number" id="j3-9j" min=0 max=32 value=2 step=0.5 style="width: 48px" onchange="update9jResult();">
+<br>
+<i>j</i><sub><small>4</small></sub> = <input type="number" id="j4-9j" min=0 max=32 value=1 step=0.5 style="width: 48px" onchange="update9jResult();">
+<i>j</i><sub><small>5</small></sub> = <input type="number" id="j5-9j" min=0 max=32 value=1 step=0.5 style="width: 48px" onchange="update9jResult();">
+<i>j</i><sub><small>6</small></sub> = <input type="number" id="j6-9j" min=0 max=32 value=1 step=0.5 style="width: 48px" onchange="update9jResult();">
+<br>
+<i>j</i><sub><small>7</small></sub> = <input type="number" id="j7-9j" min=0 max=32 value=1 step=0.5 style="width: 48px" onchange="update9jResult();">
+<i>j</i><sub><small>8</small></sub> = <input type="number" id="j8-9j" min=0 max=32 value=2 step=0.5 style="width: 48px" onchange="update9jResult();">
+<i>j</i><sub><small>9</small></sub> = <input type="number" id="j9-9j" min=0 max=32 value=1 step=0.5 style="width: 48px" onchange="update9jResult();">
+</p><p>
+<span id="result-9j"></span>
+</p>
+</div>
+
+</td>
+</tr>
+</table>
+
+<script>
+  setRationalSqrtFormat = function() {
+    writeRadioToLocalStorage("sqrtFormat");
+    update3jResult();
+    update6jResult();
+    update9jResult();
+  }
+
+  setOutputFormat = function() {
+    writeRadioToLocalStorage("outputFormat");
+    update3jResult();
+    update6jResult();
+    update9jResult();
+  }
+
+  setPrecision = function() {
+    writeToLocalStorage("precision");
+    update3jResult();
+    update6jResult();
+    update9jResult();
+  }
+</script>
+
+<p>
+Display result as
+<input type="radio" name="outputFormat" value="analytical" checked onchange="setOutputFormat();">
+  <label for="analytical">Analytical</label>
+<input type="radio" name="outputFormat" value="numerical" onchange="setOutputFormat();">
+  <label for="numerical">Numerical</label>
+<input type="radio" name="outputFormat" value="both" onchange="setOutputFormat();">
+  <label for="both">Both</label>
+</p><p>
+Represent square root as
+<input type="radio" name="sqrtFormat" value="radical" checked onchange="setRationalSqrtFormat();">
+  <label for="radical">&radic;</label>
+<input type="radio" name="sqrtFormat" value="sqrt" onchange="setRationalSqrtFormat();">
+  <label for="sqrt">sqrt()</label>
+</p><p>
+Precision (decimal places):
+<input type="number" id="precision" min=1 max=10 value=4 onchange="setPrecision();">
+</p>
+
+</body>
+</html>
